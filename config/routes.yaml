@@ -1,5 +1,81 @@
 controllers:
     resource:
-        path: ../src/Controller/
+        path: ../src/Application/
         namespace: App\Controller
     type: attribute
+
+# User
+sign-in:
+    path: /user/sign-in
+    controller: App\Controller\User\SignInController
+
+save-owner:
+    path: /user/save-owner
+    controller: App\Controller\User\SaveOwnerController
+
+delete-owner:
+    path: /user/delete-owner
+    controller: App\Controller\User\DeleteOwnerController
+
+find-owner:
+    path: /user/find-owner
+    controller: App\Controller\User\FindOwnerController
+
+save-tenant:
+    path: /user/save-tenant
+    controller: App\Controller\User\SaveTenantController
+
+save-guarantor:
+    path: /user/save-guarantor
+    controller: App\Controller\User\SaveGuarantorController
+
+save-subscriber:
+    path: /user/save-subscriber
+    controller: App\Controller\User\SubscriberSaveController
+
+delete-subscriber:
+    path: /user/delete-subscriber
+    controller: App\Controller\User\SubscriberDeleteController
+
+# Country
+get-countries:
+    path: /country/list
+    controller: App\Controller\Country\ListController
+
+# City
+get-cities:
+    path: /city/list
+    controller: App\Controller\City\ListController
+
+get-cities-by-zip-code:
+    path: /city/list-by-zip-code
+    controller: App\Controller\City\ListByZipCodeController
+
+# Corporation
+save-corporation:
+    path: /corporation/save
+    controller: App\Controller\Corporation\SaveController
+
+delete-corporation:
+    path: /corporation/delete
+    controller: App\Controller\Corporation\DeleteController
+
+# Situation
+professional-situation:
+    path: /situation/list
+    controller: App\Controller\Situation\ProfessionalSituationController
+
+# Possession
+save-possession:
+    path: /possession/save
+    controller: App\Controller\Possession\SaveController
+
+# Service
+save-service:
+    path: /service/save
+    controller: App\Controller\Service\SaveController
+
+# Mandate
+find-mandate:
+    path: /mandate/find
+    controller: App\Controller\Mandate\FindController
