@@ -1,0 +1,10 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        #envelope:
+            #sender: 'no-reply@mercure.io'
+            #recipients: [ 'foo@example.com', 'bar@example.com' ]
+        #headers:
+            #From: 'Mercure Software <no-reply@mercure.io>'
+            #Bcc: 'baz@example.com'
+            #X-Custom-Header: 'foobar'

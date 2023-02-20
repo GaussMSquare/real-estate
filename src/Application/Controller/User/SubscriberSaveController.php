@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Controller\User;
 
-use App\Application\MainController;
 use App\Application\Handler\User\SubscriberSaveHandler;
 use App\Domain\Model\User\UserModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SubscriberSaveController extends MainController
+class SubscriberSaveController extends UserCheckController
 {
     private SubscriberSaveHandler $handler;
 

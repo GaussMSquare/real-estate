@@ -1,0 +1,13 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+
+    paths:
+        '%kernel.project_dir%/assets/images': images
+        '%kernel.project_dir%/assets/bootstrap/css': bootstrap
+        '%kernel.project_dir%/assets/tether': tether
+        '%kernel.project_dir%/assets/theme/css': theme
+        '%kernel.project_dir%/assets/mobirise/css': mobirise
+
+when@test:
+    twig:
+        strict_variables: true

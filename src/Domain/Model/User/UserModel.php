@@ -2,10 +2,25 @@
 
 namespace App\Domain\Model\User;
 
-class UserModel implements UserInterface
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
+use Symfony\Component\Security\Core\User\UserInterface;
+//use Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="subscriber")
+ */
+class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /** @var int */
-    private int $id;
+    /** 
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int 
+     */
+    private ?int $id = null;
 
     /** @var string  */
     private string $civility;
@@ -37,11 +52,13 @@ class UserModel implements UserInterface
     /** @var string  */
     private string $mobilePhone;
 
-    /** @var string  */
+    /**
+     * @ORM\Column(type="string", length=64, unique=true)
+     */
     private string $email;
 
     /** @var string  */
-    private string $password;
+    private ?string $password = null;
 
     /** @var \DateTimeInterface  */
     private \DateTimeInterface $creationDate;
@@ -49,7 +66,14 @@ class UserModel implements UserInterface
     /** @var \DateTimeInterface  */
     private \DateTimeInterface $updateDate;
 
-    public function getId(): int
+    /** @var array */
+    private array $roles = [];
+
+    private VerifyEmailSignatureComponents $signatureComponents;
+
+    private bool $isVerified = false;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -169,14 +193,15 @@ class UserModel implements UserInterface
         $this->email = $email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password)
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
+        return $this;
     }
 
     public function getCreationDate(): \DateTimeInterface
@@ -199,25 +224,124 @@ class UserModel implements UserInterface
         $this->updateDate = $updateDate;
     }
 
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getSignatureComponents(): VerifyEmailSignatureComponents
+    {
+        return $this->signatureComponents;
+    }
+
+    public function setSignatureComponents(VerifyEmailSignatureComponents $signatureComponents): self
+    {
+        $this->signatureComponents = $signatureComponents;
+        return $this;
+    }
+
+    /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Returning a salt is only needed if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+        return $this;
+    }
+
     public static function arrayToModel(array $data):self
     {
-        // TODO Add validation
         $userModel = new self();
-        $userModel->setId($data['id']);
-        $userModel->setCivility($data['civility']);
-        $userModel->setFirstName($data['firstName']);
-        $userModel->setLastName($data['lastName']);
-        $userModel->setBirthDate($data['birthDate']);
-        $userModel->setBirthPlace($data['birthPlace']);
-        $userModel->setCitizenship($data['citizenship']);
-        $userModel->setMaritalStatus($data['maritalStatus']);
-        $userModel->setProfession($data['profession']);
-        $userModel->setPhone($data['phone']);
-        $userModel->setMobilePhone($data['mobilePhone']);
-        $userModel->setEmail($data['email']);
-        $userModel->setPassword($data['password']);
-        $userModel->setCreationDate($data['creationDate']);
-        $userModel->setUpdateDate($data['updateDate']);
+
+        // TODO Add validation
+        /*Assert::lazy()
+            ->tryAll()
+            ->that($data)->keyExists('type', 'The type should be a provided', 'type')
+            ->that($data)->keyExists('duration', 'The duration should be a provided', 'duration')
+            ->that($data)->keyExists('blob', 'The blob should be a provided', 'content')
+            ->verifyNow();*/
+
+        if (isset($data['id']))
+            $userModel->setId($data['id']);
+
+        if (isset($data['civility']))
+            $userModel->setCivility($data['civility']);
+
+        if (isset($data['firstName']))
+            $userModel->setFirstName($data['firstName']);
+
+        if (isset($data['lastName']))
+            $userModel->setLastName($data['lastName']);
+
+        if (isset($data['birthDate']))
+            $userModel->setBirthDate($data['birthDate']);
+
+        if (isset($data['birthPlace']))
+            $userModel->setBirthPlace($data['birthPlace']);
+
+        if (isset($data['citizenship']))
+            $userModel->setCitizenship($data['citizenship']);
+
+        if (isset($data['maritalStatus']))
+            $userModel->setCitizenship($data['maritalStatus']);
+
+        if (isset($data['profession']))
+            $userModel->setProfession($data['profession']);
+
+        if (isset($data['phone']))
+            $userModel->setPhone($data['phone']);
+
+        if (isset($data['mobilePhone']))
+            $userModel->setMobilePhone($data['mobilePhone']);
+
+        if ($data['email'])
+            $userModel->setEmail($data['email']);
+
+        if (isset($data['password']))
+            $userModel->setPassword($data['password']);
 
         return $userModel;
     }

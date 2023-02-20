@@ -29,10 +29,26 @@ controllers:
 #    path: /user/save-guarantor
 #    controller: App\Application\Controller\User\SaveGuarantorController
 #
-#save-subscriber:
-#    path: /user/save-subscriber
-#    controller: App\Application\Controller\User\SubscriberSaveController
-#
+save-subscriber:
+     path: /user/save-subscriber
+     controller: App\Application\Controller\User\SubscriberSaveController
+
+sign-up-subscriber:
+    path: /user/sign-up-subscriber
+    controller: App\Application\Controller\User\SubscriberSignUpController
+
+sign-in-subscriber:
+    path: /user/sign-in-subscriber
+    controller: App\Application\Controller\User\SubscriberSignInController    
+
+check-confirm-email:
+    path: /user/check-confirm-email
+    controller: App\Application\Controller\User\UserCheckController::checkConfirmEmail
+
+get-token-user:
+    path: /user/get-token-user
+    controller: App\Application\Controller\User\UserGetTokenController
+
 #delete-subscriber:
 #    path: /user/delete-subscriber
 #    controller: App\Application\Controller\User\SubscriberDeleteController

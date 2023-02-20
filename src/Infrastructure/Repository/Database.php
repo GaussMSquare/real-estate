@@ -13,12 +13,13 @@ class Database
     protected const MARITAL_STATUS_TABLE_NAME = 'marital_status';
 
     protected Connection $dbal;
-
     protected QueryBuilder $queryBuilder;
+    protected string $dateTimeFormat;
 
     public function __construct(Connection $dbal)
     {
         $this->dbal = $dbal;
         $this->queryBuilder = $this->dbal->createQueryBuilder();
+        $this->dateTimeFormat = $this->dbal->getDatabasePlatform()->getDateTimeFormatString();
     }
 }

@@ -16,8 +16,8 @@ class SubscriberSaveHandler
         $this->subscriberRepository = $repository;
     }
 
-    public function handle(UserModel $userModel): void
+    public function handle(UserModel $userModel): string
     {
-        $this->subscriberRepository->create($userModel);
+        return $this->subscriberRepository->create($userModel);
     }
 }

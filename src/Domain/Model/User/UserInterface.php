@@ -52,10 +52,6 @@ interface UserInterface
 
     public function setEmail(string $email);
 
-    public function getPassword(): string;
-
-    public function setPassword(string $password);
-
     public function getCreationDate(): \DateTimeInterface;
 
     public function setCreationDate(\DateTimeInterface $creationDate);
@@ -63,4 +59,8 @@ interface UserInterface
     public function getUpdateDate(): \DateTimeInterface;
 
     public function setUpdateDate(\DateTimeInterface $updateDate);
+
+    public function getRoles(): array;
+
+    public function setRoles(array $roles): self;
 }
