@@ -46,6 +46,6 @@ class SubscriberSignUpController extends AbstractController
         // Send confirmation e-mail
         $mailUtils->sendMail($userModel, $mailer, $logger, 'email/confirm_email.html.twig', 'Veuillez confirmer votre adresse e-mail');
 
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+        return $this->json([], Response::HTTP_NO_CONTENT);
     }
 }
