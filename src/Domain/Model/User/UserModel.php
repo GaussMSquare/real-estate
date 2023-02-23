@@ -60,6 +60,9 @@ class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
     /** @var string  */
     private ?string $password = null;
 
+    /** @var string  */
+    private ?string $token = null;
+
     /** @var \DateTimeInterface  */
     private \DateTimeInterface $creationDate;
 
@@ -69,7 +72,7 @@ class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
     /** @var array */
     private array $roles = [];
 
-    private VerifyEmailSignatureComponents $signatureComponents;
+    private ?VerifyEmailSignatureComponents $signatureComponents = null;
 
     private bool $isVerified = false;
 
@@ -240,12 +243,12 @@ class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSignatureComponents(): VerifyEmailSignatureComponents
+    public function getSignatureComponents(): ?VerifyEmailSignatureComponents
     {
         return $this->signatureComponents;
     }
 
-    public function setSignatureComponents(VerifyEmailSignatureComponents $signatureComponents): self
+    public function setSignatureComponents(?VerifyEmailSignatureComponents $signatureComponents): self
     {
         $this->signatureComponents = $signatureComponents;
         return $this;
@@ -289,6 +292,17 @@ class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
         return $this;
     }
 
@@ -342,6 +356,9 @@ class UserModel implements UserInterface, PasswordAuthenticatedUserInterface
 
         if (isset($data['password']))
             $userModel->setPassword($data['password']);
+
+        if (isset($data['token']))
+            $userModel->setToken($data['token']);
 
         return $userModel;
     }
